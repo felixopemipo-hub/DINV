@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DINV · supermarket like Shoprite</title>
+  <!-- Font Awesome 6 (free) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+    }
+
+    body {
+      background-color: #f4f6f8;
+      color: #1e2b3c;
+    }
+
+    /* HEADER — MALL NAME + SHOPRITE VIBE */
+    .top-bar {
+      background: linear-gradient(145deg, #041e3f, #0a2b4b);
+      color: white;
+      padding: 0.9rem 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 4px solid #f3c14b;
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .mall-name {
+      font-size: 2.2rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      background: #f3c14b;
+      color: #041e3f;
+      padding: 0.1rem 1rem 0.1rem 1.2rem;
+      border-radius: 40px 8px 8px 40px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+      text-transform: uppercase;
+    }
+
+    .mall-name span {
+      font-size: 1rem;
+      background: #041e3f;
+      color: #f3c14b;
+      padding: 0.2rem 1rem;
+      border-radius: 30px;
+      margin-left: 12px;
+      font-weight: 300;
+      letter-spacing: 1px;
+    }
+
+    .shoprite-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.1);
+      padding: 0.4rem 1.2rem;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 500;
+      border: 1px solid #f3c14b55;
+    }
+
+    .shoprite-badge i {
+      color: #f3c14b;
+      font-size: 1.4rem;
+    }
+
+    /* SLIDER SECTION (full width) */
+    .slider-section {
+      position: relative;
+      max-width: 1400px;
+      margin: 2rem auto 1rem;
+      padding: 0 20px;
+    }
+
+    .slider-container {
+      position: relative;
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 20px 30px -10px rgba(0, 20, 30, 0.3);
+      border: 2px solid white;
+    }
+
+    .slides {
+      display: flex;
+      transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    .slide {
+      min-width: 100%;
+      height: 420px;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+
+    .slide::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, #041e3f80 0%, transparent 50%, #041e3f30 100%);
+      pointer-events: none;
+    }
+
+    .slide-content {
+      position: absolute;
+      bottom: 50px;
+      left: 50px;
+      color: white;
+      text-shadow: 0 3px 12px black;
+      z-index: 5;
+      max-width: 500px;
+    }
+
+    .slide-content h2 {
+      font-size: 3rem;
+      font-weight: 800;
+      background: rgba(4, 30, 63, 0.7);
+      display: inline-block;
+      padding: 0.4rem 1.5rem;
+      border-radius: 60px;
+      backdrop-filter: blur(4px);
+      margin-bottom: 0.5rem;
+    }
+
+    .slide-content p {
+      font-size: 1.3rem;
+      background: #f3c14bdf;
+      color: #041e3f;
+      padding: 0.4rem 1.5rem;
+      border-radius: 40px;
+      font-weight: 600;
+      display: inline-block;
+    }
+
+    .slider-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,0.85);
+      border: none;
+      width: 48px;
+      height: 48px;
+      border-radius: 60px;
+      font-size: 1.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 10;
+      color: #041e3f;
+      box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+      transition: 0.2s;
+    }
+
+    .slider-btn:hover {
+      background: #f3c14b;
+      color: #041e3f;
+      scale: 1.1;
+    }
+
+    .prev { left: 30px; }
+    .next { right: 30px; }
+
+    /* DOTS */
+    .dots {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .dot {
+      width: 14px;
+      height: 14px;
+      background: #b0c4de;
+      border-radius: 30px;
+      border: none;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .dot.active {
+      background: #f3c14b;
+      width: 34px;
+      background: #f3c14b;
+      box-shadow: 0 0 0 2px #041e3f;
+    }
+
+    /* MAIN MALL REAL IMAGE + INFO */
+    .mall-showcase {
+      max-width: 1300px;
+      margin: 3rem auto;
+      padding: 0 20px;
+    }
+
+    .mall-card {
+      display: flex;
+      flex-wrap: wrap;
+      background: white;
+      border-radius: 40px;
+      overflow: hidden;
+      box-shadow: 0 25px 35px -8px rgba(0,30,40,0.25);
+      border: 1px solid rgba(243, 193, 75, 0.4);
+    }
+
+    .mall-image {
+      flex: 1 1 350px;
+      min-height: 320px;
+      background-image: url('https://images.unsplash.com/photo-1583573636425-47c105db9e71?q=80&w=1974&auto=format&fit=crop'); /* modern mall interior */
+      background-size: cover;
+      background-position: center 45%;
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      padding: 20px;
+    }
+
+    .mall-image .credit {
+      background: #041e3fe0;
+      color: #f3c14b;
+      padding: 4px 15px;
+      border-radius: 30px;
+      font-size: 0.8rem;
+      backdrop-filter: blur(2px);
+    }
+
+    .mall-info {
+      flex: 1 1 350px;
+      padding: 2rem 2.5rem;
+      background: #ffffff;
+    }
+
+    .mall-info h3 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #041e3f;
+      border-left: 10px solid #f3c14b;
+      padding-left: 20px;
+      margin-bottom: 1rem;
+    }
+
+    .mall-info p {
+      font-size: 1.2rem;
+      margin: 1.2rem 0;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .mall-info i {
+      color: #f3c14b;
+      font-size: 2rem;
+      width: 40px;
+    }
+
+    .mall-info .highlight {
+      background: #f3c14b20;
+      border-radius: 60px;
+      padding: 0.4rem 1.3rem;
+      font-weight: 600;
+    }
+
+    /* PRODUCTS GRID (real images + price tags + animation) */
+    .products-section {
+      max-width: 1300px;
+      margin: 4rem auto;
+      padding: 0 20px;
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #041e3f;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 2rem;
+    }
+
+    .section-title i {
+      background: #f3c14b;
+      padding: 0.8rem;
+      border-radius: 50%;
+      color: #041e3f;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 30px;
+    }
+
+    .product-card {
+      background: white;
+      border-radius: 32px;
+      overflow: hidden;
+      box-shadow: 0 15px 25px -8px rgba(4,30,63,0.15);
+      transition: all 0.3s ease;
+      border: 1px solid rgba(243, 194, 75, 0.2);
+      animation: floatIn 0.6s ease backwards;
+      animation-delay: calc(0.1s * var(--i, 0));
+    }
+
+    .product-card:hover {
+      transform: translateY(-12px) scale(1.02);
+      box-shadow: 0 30px 40px -8px #041e3f55;
+      border-color: #f3c14b;
+    }
+
+    @keyframes floatIn {
+      0% { opacity: 0; transform: translateY(40px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .product-img {
+      height: 200px;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      transition: transform 0.5s;
+    }
+
+    .product-card:hover .product-img {
+      transform: scale(1.05);
+    }
+
+    /* price tag ribbon */
+    .price-tag {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: #f3c14b;
+      color: #041e3f;
+      font-weight: 800;
+      font-size: 1.5rem;
+      padding: 0.4rem 1rem 0.4rem 1.8rem;
+      border-radius: 60px 20px 20px 60px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+      z-index: 3;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      border: 2px solid white;
+    }
+
+    .price-tag small {
+      font-size: 0.9rem;
+      font-weight: 500;
+      opacity: 0.8;
+    }
+
+    .product-info {
+      padding: 1.5rem 1.5rem 2rem;
+      background: white;
+    }
+
+    .product-info h4 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #041e3f;
+    }
+
+    .product-info .desc {
+      color: #4a5f73;
+      margin: 0.5rem 0 0.2rem;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .product-info i {
+      color: #f3c14b;
+    }
+
+    /* bottom footer */
+    .footer-note {
+      background: #041e3f;
+      color: #efefef;
+      text-align: center;
+      padding: 2rem;
+      margin-top: 4rem;
+      border-top: 8px solid #f3c14b;
+      font-size: 1.2rem;
+    }
+
+    .footer-note strong {
+      color: #f3c14b;
+      font-size: 1.8rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- header with DINV and Shoprite reference -->
+  <div class="top-bar">
+    <div class="logo-area">
+      <div class="mall-name">DINV <span>fresh market</span></div>
+    </div>
+    <div class="shoprite-badge">
+      <i class="fa-solid fa-basket-shopping"></i>
+      <span>inspired by Shoprite · everyday low prices</span>
+      <i class="fa-solid fa-tag" style="color:#f3c14b;"></i>
+    </div>
+  </div>
+
+  <!-- SLIDER with animation and real supermarket vibe -->
+  <div class="slider-section">
+    <div class="slider-container">
+      <div class="slides" id="slides">
+        <!-- slide 1 (real image: fresh produce) -->
+        <div class="slide" style="background-image: url('https://www.lovefoodhatewaste.com/sites/default/files/styles/16_9_two_column/public/2022-08/Tomatoes-sh769524253.jpg.webp?itok=25sVZ_jz');">
+          <div class="slide-content">
+            <h2>fresh & local</h2>
+            <p>from farm to DINV</p>
+          </div>
+        </div>
+        <!-- slide 2 (real image: busy supermarket aisle) -->
+        <div class="slide" style="background-image: url('https://pachamamafoodsng.com/wp-content/uploads/2023/04/PachaMama-Rice.jpg_0010_IMG_5210.jpg');">
+          <div class="slide-content">
+            <h2>always affordable</h2>
+            <p>It is only better</p>
+          </div>
+        </div>
+        <!-- slide 3 (real image: bakery/deli) -->
+        <div class="slide" style="background-image: url('https://fareisle.com/wp-content/uploads/2020/04/sourdough-bread-ecourse-05-2.jpg');">
+          <div class="slide-content">
+            <h2>freshly baked</h2>
+            <p>every morning</p>
+          </div>
+        </div>
+      </div>
+      <button class="slider-btn prev" id="prev"><i class="fas fa-chevron-left"></i></button>
+      <button class="slider-btn next" id="next"><i class="fas fa-chevron-right"></i></button>
+    </div>
+    <div class="dots" id="dots">
+      <button class="dot active"></button>
+      <button class="dot"></button>
+      <button class="dot"></button>
+    </div>
+  </div>
+
+  <!-- REAL IMAGE OF THE MAIN SHOPPING MALL (DINV) -->
+  <div class="mall-showcase">
+    <div class="mall-card">
+      <div class="mall-image">
+        <div class="credit"><img src="https://raw.githubusercontent.com/felixopemipo-hub/DINV/335926e5a887c6155c7a7e79c5153fd68f1b06e7/IMG-20260221-WA0003.jpg" height="400px" width="100%"> DINV central · real mall photo</div>
+      </div>
+      <div class="mall-info">
+        <h3>DINV shopping mall</h3>
+        <p><i class="fa-solid fa-location-dot"></i> 245 Market Street, Cape Town</p>
+        <p><i class="fa-regular fa-clock"></i> open 08:00 – 22:00 · 7 days</p>
+        <p><span class="highlight"><i class="fa-regular fa-star"></i> 120+ stores · Shoprite · DINV fresh</span></p>
+        <p><i class="fa-solid fa-cart-shopping"></i> biggest supermarket in the region</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRODUCTS GRID with real images, price tags and animation -->
+  <div class="products-section">
+    <div class="section-title">
+      <i class="fa-solid fa-tags"></i> 
+      <span>today's fresh picks · real prices</span>
+    </div>
+    <div class="product-grid">
+      <!-- product 1 (real image: strawberries) -->
+      <div class="product-card" style="--i:1;">
+        <div class="product-img" style="background-image: url('https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2?q=80&w=1915&auto=format&fit=crop');">
+          <div class="price-tag">R29.99 <small>ea</small></div>
+        </div>
+        <div class="product-info">
+          <h4>fresh strawberries</h4>
+          <div class="desc"><i class="fa-regular fa-heart"></i> 250g punnet</div>
+        </div>
+      </div>
+      <!-- product 2 (real image: artisan bread) -->
+      <div class="product-card" style="--i:2;">
+        <div class="product-img" style="background-image: url('https://fareisle.com/wp-content/uploads/2020/04/sourdough-bread-ecourse-05-2.jpg');">
+          <div class="price-tag">R24.500 <small>loaf</small></div>
+        </div>
+        <div class="product-info">
+          <h4>sourdough loaf</h4>
+          <div class="desc"><i class="fa-regular fa-clock"></i> baked today</div>
+        </div>
+      </div>
+      <!-- product 3 (real image: organic milk) -->
+      <div class="product-card" style="--i:3;">
+        <div class="product-img" style="background-image: url('https://images.unsplash.com/photo-1550583724-b2692b85b150?q=80&w=1974&auto=format&fit=crop');">
+          <div class="price-tag">R18.99 <small>1L</small></div>
+        </div>
+        <div class="product-info">
+          <h4>organic full cream</h4>
+          <div class="desc"><i class="fa-solid fa-cow"></i> free range</div>
+        </div>
+      </div>
+      <!-- product 4 (real image: assorted vegetables) -->
+      <div class="product-card" style="--i:4;">
+        <div class="product-img" style="background-image: url('https://www.goodies4all.co.za/wp-content/uploads/2023/08/Goodies4all-Fresh-Vegetables-Veggie-Combo.jpg');">
+          <div class="price-tag">R39.99 <small>mix</small></div>
+        </div>
+        <div class="product-info">
+          <h4>veggie combo</h4>
+          <div class="desc"><i class="fa-regular fa-sun"></i> 5 items</div>
+        </div>
+      </div>
+      <!-- product 5 (real image: salmon fillet) -->
+      <div class="product-card" style="--i:5;">
+        <div class="product-img" style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfOft9ZNDyXf3En7IUc57u2FqM1IlMMs7VKA&s');">
+          <div class="price-tag">R89.90 <small>/kg</small></div>
+        </div>
+        <div class="product-info">
+          <h4>atlantic salmon</h4>
+          <div class="desc"><i class="fa-solid fa-fish"></i> sustainable</div>
+        </div>
+      </div>
+      <!-- product 6 (real image: cheddar cheese) -->
+      <div class="product-card" style="--i:6;">
+        <div class="product-img" style="background-image: url('https://m.media-amazon.com/images/I/61knpggwugL._SL1500_.jpg');">
+          <div class="price-tag">R49.99 <small>250g</small></div>
+        </div>
+        <div class="product-info">
+          <h4>aged cheddar</h4>
+          <div class="desc"><i class="fa-regular fa-star"></i> creamy</div>
+        </div>
+      </div>
+    </div>
+    <p style="text-align: right; margin-top: 1.2rem; opacity: 0.7; font-style: italic;"><i class="fa-regular fa-image"></i> all product images real · prices sample</p>
+  </div>
+
+  <!-- footer with mall signature -->
+  <div class="footer-note">
+    <p><strong>DINV</strong> · your premium everyday mall · fresh · smart · Shoprite style</p>
+    <p style="margin-top: 1rem; font-size: 1rem;"><i class="fa-regular fa-copyright"></i> 2025 DINV supermarkets. real photos from unsplash.</p>
+  </div>
+
+  <!-- simple slider javascript -->
+  <script>
+    (function() {
+      const slides = document.getElementById('slides');
+      const slideList = document.querySelectorAll('.slide');
+      const prevBtn = document.getElementById('prev');
+      const nextBtn = document.getElementById('next');
+      const dots = document.querySelectorAll('.dot');
+      let currentIndex = 0;
+      const totalSlides = slideList.length;
+
+      function updateSlider(index) {
+        if (index < 0) index = totalSlides - 1;
+        if (index >= totalSlides) index = 0;
+        currentIndex = index;
+        slides.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+        dots.forEach((dot, i) => {
+          dot.classList.toggle('active', i === currentIndex);
+        });
+      }
+
+      prevBtn.addEventListener('click', () => updateSlider(currentIndex - 1));
+      nextBtn.addEventListener('click', () => updateSlider(currentIndex + 1));
+
+      dots.forEach((dot, idx) => {
+        dot.addEventListener('click', () => updateSlider(idx));
+      });
+
+      // auto slide every 5 seconds (optional)
+      setInterval(() => {
+        updateSlider(currentIndex + 1);
+      }, 6000);
+    })();
+  </script>
+  <!-- small note: all unsplash images are real, high-quality and royalty-free -->
+</body>
+</html>
